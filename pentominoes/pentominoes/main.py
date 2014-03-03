@@ -732,18 +732,6 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha5[6][13] = 0
         self.hracia_plocha5[6][14] = 0
         self.hracia_plocha5[6][15] = 1
-        self.rozlozenie = [[0 for x in range(0, 3)] for y in range(0, 12)]
-        self.rozlozenie_new = [[0 for x in range(0, 3)] for y in range(0, 12)]
-        for xModul in range(0, len(Moduly)):
-            #generuj poziciu
-            x = random.randrange(4, 10)
-            y = random.randrange(4, 17)
-            #generuj otocenie
-            pocet_otoceni = len(Moduly[xModul])
-            xOtocenie = random.randrange(0, pocet_otoceni)
-            self.rozlozenie[xModul][0] = x
-            self.rozlozenie[xModul][1] = y
-            self.rozlozenie[xModul][2] = xOtocenie
 
     def test1(self):
         self.assertEqual(energy2(self.hracia_plocha1), 63)
@@ -789,9 +777,7 @@ class TestSequenceFunctions(unittest.TestCase):
                             print(vyber)
         print ("done")
 
-#        self.rozlozenie[xModul][0] = x
-#        self.rozlozenie[xModul][1] = y
-#        self.rozlozenie[xModul][2] = xOtocenie
+
 
 if __name__ == '__main__':
     unittest.main()
