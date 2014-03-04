@@ -629,11 +629,11 @@ def test(eval):
         #ecur = energy(cur)
         ecur = energy2(cur)
         emin = 0
-        temp = 50
+        temp = delta_temp
         halp = 0
         #    new_plocha = Hracia_plocha
-        while temp > 0.001:
-            temp -= 0.001
+        while temp > pokles:
+            temp -= pokles
             new_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
             for x in range(4, 9):
                 for y in range(4, 16):
@@ -664,13 +664,12 @@ def test(eval):
                     ebest = eval(best)
 
         ebest = finalenergy(best)
-        vypis_plochu(best)
         priemerny_vysledok += ebest
         print ("ebest: %d" % ebest)
-    print("%f10" % priemerny_vysledok / 1000)
+    print("%f10" % float(priemerny_vysledok / 1000))
 
 
-#test(energy)
+test(finalenergy)
 
 
 class TestSequenceFunctions(unittest.TestCase):
