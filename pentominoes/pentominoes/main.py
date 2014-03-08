@@ -196,7 +196,7 @@ def anneal(eval, delta_temp, pokles):
         probability = prob(ecur, enew, temp)
         randomnumber = random.random()
         if probability > randomnumber:
-            print(ecur, enew, ecur - enew)
+            print(ecur - enew, temp)
             cur = plocha(new_plocha)
             rozlozenie_cur = rozlozenie(rozlozenie_new)
             ecur = eval(cur)
@@ -211,11 +211,11 @@ def anneal(eval, delta_temp, pokles):
     return result
 
 
-delta_temp = setanneal(energy2)
+delta_temp = setanneal(energy)
 
 priemerny_vysledok = 0
 for iterator in range(0, 1000):
-    priemerny_vysledok += anneal(energy2, delta_temp, delta_temp/1000)
+    priemerny_vysledok += anneal(energy, delta_temp, delta_temp/1000)
 print(priemerny_vysledok/1000)
 
 
