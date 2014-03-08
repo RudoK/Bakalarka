@@ -91,3 +91,54 @@ def vypis_plochu(p):
     print ("")
 
 
+#ohodnocovacia funkcia, ktora berie do uvahy iba policka s -1, vracia pocet takychto policok na ploche
+def energy(p):
+    hodnota = 0
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if p[x][y] < 0:
+                hodnota += math.fabs(p[x][y]) * 2
+    return hodnota
+
+
+#ohodnocovacia funkcia, ktora berie do uvahy velkosti a pocet ostrovov, vyuziva pomocnu funkciu
+def energy2(p):
+    velkost = 0
+    pocet_ostrovov = 0
+    new_plocha = plocha(p)
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if new_plocha[x][y] == -1:
+                velkost += 3 + energy2rekurzia(new_plocha, x, y)
+                pocet_ostrovov += 1
+            #                print("ostrov: %d" % pocet_ostrovov)
+            #                print("velkost: %d" % velkost)
+            #                velkost = 0
+            #    print("%.10f" % float(velkost*2/pocet_ostrovov))
+    if pocet_ostrovov == 0:
+        pocet_ostrovov = 1
+    return float(velkost / pocet_ostrovov)
+
+
+#na danej pozicii x a y sa nachadza -1, zisti na aky velky ostrov zlozeny z -1 som narazil
+def energy2rekurzia(new_plocha, x, y):
+    hodnota = math.fabs(new_plocha[x][y])
+    new_plocha[x][y] = 0
+    if (new_plocha[x + 1][y] == -1) & (x < 8):
+        hodnota += energy2rekurzia(new_plocha, x + 1, y)
+    if (new_plocha[x - 1][y] == -1) & (x > 4):
+        hodnota += energy2rekurzia(new_plocha, x - 1, y)
+    if (new_plocha[x][y + 1] == -1) & (y < 15):
+        hodnota += energy2rekurzia(new_plocha, x, y + 1)
+    if (new_plocha[x][y - 1] == -1) & (y > 4):
+        hodnota += energy2rekurzia(new_plocha, x, y - 1)
+    return hodnota
+
+
+#objektivna ohodnocovacia funkcia, vrati realnu hodnotu ktora sa na chadza dokopy na ploche (optimum je 0)
+def finalenergy(p):
+    hodnota = 0
+    for x in range(4, 9):
+        for y in range(4, 16):
+            hodnota += math.fabs(p[x][y])
+    return hodnota

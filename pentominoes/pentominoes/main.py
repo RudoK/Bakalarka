@@ -6,55 +6,6 @@ import funkcie
 __author__ = 'MeriMood'
 
 
-def finalenergy(p):
-    hodnota = 0
-    for x in range(4, 9):
-        for y in range(4, 16):
-            hodnota += math.fabs(p[x][y])
-    return hodnota
-
-
-def energy(p):
-    hodnota = 0
-    for x in range(4, 9):
-        for y in range(4, 16):
-            if p[x][y] < 0:
-                hodnota += math.fabs(p[x][y]) * 2
-    return hodnota
-
-
-def rec(new_plocha, x, y):
-    hodnota = math.fabs(new_plocha[x][y])
-    new_plocha[x][y] = 0
-    if (new_plocha[x + 1][y] == -1) & (x < 8):
-        hodnota += rec(new_plocha, x + 1, y)
-    if (new_plocha[x - 1][y] == -1) & (x > 4):
-        hodnota += rec(new_plocha, x - 1, y)
-    if (new_plocha[x][y + 1] == -1) & (y < 15):
-        hodnota += rec(new_plocha, x, y + 1)
-    if (new_plocha[x][y - 1] == -1) & (y > 4):
-        hodnota += rec(new_plocha, x, y - 1)
-    return hodnota
-
-
-def energy2(p):
-    velkost = 0
-    pocet_ostrovov = 0
-    new_plocha = funkcie.plocha(p)
-    for x in range(4, 9):
-        for y in range(4, 16):
-            if new_plocha[x][y] == -1:
-                velkost += 3 + rec(new_plocha, x, y)
-                pocet_ostrovov += 1
-            #                print("ostrov: %d" % pocet_ostrovov)
-            #                print("velkost: %d" % velkost)
-            #                velkost = 0
-            #    print("%.10f" % float(velkost*2/pocet_ostrovov))
-    if pocet_ostrovov == 0:
-        pocet_ostrovov = 1
-    return float(velkost / pocet_ostrovov)
-
-
 def setanneal(eval):
     #1. stanovenie optimalnej teploty a poklesu
     temp = 500
@@ -110,7 +61,7 @@ def anneal(eval, delta_temp, pokles):
         probability = funkcie.prob(ecur, enew, temp)
         randomnumber = random.random()
         if probability > randomnumber:
-            print(ecur - enew, temp)
+#            print(ecur - enew, temp)
             cur = funkcie.plocha(new_plocha)
             rozlozenie_cur = funkcie.rozlozenie(rozlozenie_new)
             ecur = eval(cur)
@@ -118,18 +69,17 @@ def anneal(eval, delta_temp, pokles):
                 best = funkcie.plocha(cur)
                 ebest = eval(best)
 
-    ebest = finalenergy(best)
+    ebest = funkcie.finalenergy(best)
     result = eval(best)
-    funkcie.vypis_plochu(best)
+#    funkcie.vypis_plochu(best)
     print ("ebest: %d" % ebest)
     return result
 
 
-delta_temp = setanneal(energy)
-
+delta_temp = setanneal(funkcie.energy)
 priemerny_vysledok = 0
 for iterator in range(0, 1000):
-    priemerny_vysledok += anneal(energy, delta_temp, delta_temp/1000)
+    priemerny_vysledok += anneal(funkcie.energy, delta_temp, delta_temp/10000)
 print(priemerny_vysledok/1000)
 
 
@@ -194,26 +144,26 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha5[6][15] = 1
 
     def test1(self):
-        self.assertEqual(energy2(self.hracia_plocha1), 63)
-        self.assertEqual(energy2(self.hracia_plocha2), 30.5)
-        self.assertEqual(energy2(self.hracia_plocha3), 20)
-        self.assertEqual(energy2(self.hracia_plocha4), 14)
-        self.assertEqual(energy2(self.hracia_plocha5), 9.5)
+        self.assertEqual(funkcie.energy2(self.hracia_plocha1), 63)
+        self.assertEqual(funkcie.energy2(self.hracia_plocha2), 30.5)
+        self.assertEqual(funkcie.energy2(self.hracia_plocha3), 20)
+        self.assertEqual(funkcie.energy2(self.hracia_plocha4), 14)
+        self.assertEqual(funkcie.energy2(self.hracia_plocha5), 9.5)
 
     def test2(self):
-        self.assertEqual(finalenergy(self.hracia_plocha1), 60)
-        self.assertEqual(finalenergy(self.hracia_plocha2), 55)
-        self.assertEqual(finalenergy(self.hracia_plocha3), 51)
-        self.assertEqual(finalenergy(self.hracia_plocha4), 44)
-        self.assertEqual(finalenergy(self.hracia_plocha5), 61)
+        self.assertEqual(funkcie.finalenergy(self.hracia_plocha1), 60)
+        self.assertEqual(funkcie.finalenergy(self.hracia_plocha2), 55)
+        self.assertEqual(funkcie.finalenergy(self.hracia_plocha3), 51)
+        self.assertEqual(funkcie.finalenergy(self.hracia_plocha4), 44)
+        self.assertEqual(funkcie.finalenergy(self.hracia_plocha5), 61)
 
     def test3(self):
-        self.assertEqual(rec(self.hracia_plocha5, 4, 4), 4)
-        self.assertEqual(rec(self.hracia_plocha5, 5, 7), 1)
-        self.assertEqual(rec(self.hracia_plocha5, 5, 4), 0)
-        self.assertEqual(rec(self.hracia_plocha5, 7, 4), 4)
-        self.assertEqual(rec(self.hracia_plocha5, 4, 9), 14)
-        self.assertEqual(rec(self.hracia_plocha5, 7, 9), 14)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 4, 4), 4)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 5, 7), 1)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 5, 4), 0)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 7, 4), 4)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 4, 9), 14)
+        self.assertEqual(funkcie.rec(self.hracia_plocha5, 7, 9), 14)
 
     def test4(self):
         boli = set()
