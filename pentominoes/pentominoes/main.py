@@ -1,477 +1,111 @@
 import math
 import random
 import unittest
-
+import moduly
 __author__ = 'MeriMood'
-#vsetky hracie moduly sa daju reprezentovat v poli 5x5
-#x
-Modul_x1 = [[0, 1, 0, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-#i
-Modul_i1 = [[1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
 
-Modul_i2 = [[1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0]]
 
-#z
-Modul_z11 = [[1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-Modul_z12 = [[0, 0, 1, 0, 0],
-             [1, 1, 1, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-Modul_z21 = [[0, 1, 1, 0, 0],
-             [0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-Modul_z22 = [[1, 0, 0, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-#v
-Modul_v1 = [[1, 1, 1, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-Modul_v2 = [[1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-Modul_v3 = [[1, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-Modul_v4 = [[0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-#w
-Modul_w1 = [[0, 1, 1, 0, 0],
-            [1, 1, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_w2 = [[1, 1, 0, 0, 0],
-            [0, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_w3 = [[0, 0, 1, 0, 0],
-            [0, 1, 1, 0, 0],
-            [1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_w4 = [[1, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0],
-            [0, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_w = [Modul_w1, Modul_w2, Modul_w3, Modul_w4]
-
-#t
-
-Modul_t1 = [[1, 1, 1, 0, 0],
-            [0, 1, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_t2 = [[0, 0, 1, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_t3 = [[0, 1, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_t4 = [[1, 0, 0, 0, 0],
-            [1, 1, 1, 0, 0],
-            [1, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_t = [Modul_t1, Modul_t2, Modul_t3, Modul_t4]
-
-#u
-
-Modul_u1 = [[1, 1, 1, 0, 0],
-            [1, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_u2 = [[1, 1, 0, 0, 0],
-            [1, 0, 0, 0, 0],
-            [1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_u3 = [[1, 1, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-            [1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_u4 = [[1, 0, 1, 0, 0],
-            [1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0]]
-
-Modul_u = [Modul_u1, Modul_u2, Modul_u3, Modul_u4]
-
-#f
-Modul_f11 = [[1, 0, 0, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f12 = [[0, 1, 1, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f13 = [[0, 1, 0, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f14 = [[0, 1, 0, 0, 0],
-             [0, 1, 1, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f21 = [[1, 1, 0, 0, 0],
-             [0, 1, 1, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f22 = [[0, 1, 0, 0, 0],
-             [1, 1, 1, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f23 = [[0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f24 = [[0, 0, 1, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_f = [Modul_f11, Modul_f12, Modul_f13, Modul_f14,
-           Modul_f21, Modul_f22, Modul_f23, Modul_f24]
-#l
-Modul_l11 = [[1, 1, 1, 1, 0],
-             [0, 0, 0, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l12 = [[0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l13 = [[1, 0, 0, 0, 0],
-             [1, 1, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l14 = [[1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l21 = [[1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l22 = [[1, 1, 1, 1, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l23 = [[1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l24 = [[0, 0, 0, 1, 0],
-             [1, 1, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_l = [Modul_l11, Modul_l12, Modul_l13, Modul_l14,
-           Modul_l21, Modul_l22, Modul_l23, Modul_l24]
-
-#y
-
-Modul_y11 = [[1, 1, 1, 1, 0],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y12 = [[1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y13 = [[0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y14 = [[0, 1, 0, 0, 0],
-             [1, 1, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y21 = [[1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y22 = [[0, 0, 1, 0, 0],
-             [1, 1, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y23 = [[0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y24 = [[1, 1, 1, 1, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_y = [Modul_y11, Modul_y12, Modul_y13, Modul_y14,
-           Modul_y21, Modul_y22, Modul_y23, Modul_y24]
-
-#n
-
-Modul_n11 = [[1, 1, 1, 0, 0],
-             [0, 0, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n12 = [[0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n13 = [[1, 1, 0, 0, 0],
-             [0, 1, 1, 1, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n14 = [[0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n21 = [[1, 0, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n22 = [[0, 0, 1, 1, 0],
-             [1, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n23 = [[1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n24 = [[0, 1, 1, 1, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_n = [Modul_n11, Modul_n12, Modul_n13, Modul_n14,
-           Modul_n21, Modul_n22, Modul_n23, Modul_n24]
-
-#p
-
-Modul_p11 = [[1, 1, 1, 0, 0],
-             [0, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p12 = [[0, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p13 = [[1, 1, 0, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p14 = [[1, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p21 = [[1, 0, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p22 = [[0, 1, 1, 0, 0],
-             [1, 1, 1, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p23 = [[1, 1, 0, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p24 = [[1, 1, 1, 0, 0],
-             [1, 1, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-
-Modul_p = [Modul_p11, Modul_p12, Modul_p13, Modul_p14,
-           Modul_p21, Modul_p22, Modul_p23, Modul_p24]
-
-Modul_i = [Modul_i1, Modul_i2]
-
-Modul_z = [Modul_z11, Modul_z12, Modul_z21, Modul_z22]
-
-Modul_v = [Modul_v1, Modul_v2, Modul_v3, Modul_v4]
-
-Modul_x = [Modul_x1]
-
-Moduly = [Modul_f, Modul_i, Modul_l, Modul_n, Modul_p, Modul_t,
-          Modul_u, Modul_v, Modul_w, Modul_x, Modul_y, Modul_z]
-
-
-def vypis_plochu(plocha):
+def prob(e1, e2, temp):
+    delta_e = e2 - e1
+    if delta_e < 0:
+        return 1.1
+    if round(temp, 3) <= 0:
+        return 0.1
+    return min(math.exp(-1 * (delta_e / temp)), 1)
+
+
+def generuj(rozlozenie, p):
+    xModul = random.randrange(0, 12)
+    x = random.randrange(4, 9)
+    y = random.randrange(4, 16)
+    pocet_otoceni = len(moduly.Moduly[xModul])
+    xOtocenie = random.randrange(0, pocet_otoceni)
+    vymaz_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], p)
+    rozlozenie[xModul][0] = x
+    rozlozenie[xModul][1] = y
+    rozlozenie[xModul][2] = xOtocenie
+    zapis_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], p)
+
+
+def plocha(p=[[-1 for x in range(0, 22)] for y in range(0, 15)]):
+    result = [[-1 for x in range(0, 22)] for y in range(0, 15)]
+    for x in range(0, 15):
+        for y in range(0, 22):
+            result[x][y] = p[x][y]
+    return result
+
+
+def rozlozenie(r=[[0 for x in range(0, 3)] for y in range(0, 12)]):
+    result = [[0 for x in range(0, 3)] for y in range(0, 12)]
+    for x in range(0, 12):
+        for y in range(0, 3):
+            result[x][y] = r[x][y]
+    return result
+
+
+def inicializuj(hracia_plocha, rozlozenie_cur):
+    for xModul in range(0, len(moduly.Moduly)):
+        #generuj poziciu
+        x = random.randrange(4, 10)
+        y = random.randrange(4, 17)
+        #generuj otocenie
+        pocet_otoceni = len(moduly.Moduly[xModul])
+        xOtocenie = random.randrange(0, pocet_otoceni)
+        zapis_modul(x, y, xModul, xOtocenie, hracia_plocha)
+        rozlozenie_cur[xModul][0] = x
+        rozlozenie_cur[xModul][1] = y
+        rozlozenie_cur[xModul][2] = xOtocenie
+
+
+def vypis_plochu(p):
     var = ""
     for x in range(4, 9):
         for y in range(4, 16):
-            if plocha[x][y] > -1:
+            if p[x][y] > -1:
                 var += " "
             var += " "
-            var += str(plocha[x][y])
+            var += str(p[x][y])
         print (var)
         var = ""
     print ("")
 
 
-def zapis_modul(x, y, xModul, xOtocenie, plocha):
+def zapis_modul(x, y, xModul, xOtocenie, p):
     x1 = 0
     y1 = 0
     for xtmp in range(x, x + 5):
         for ytmp in range(y, y + 5):
-            plocha[xtmp][ytmp] += Moduly[xModul][xOtocenie][x1][y1]
+            p[xtmp][ytmp] += moduly.Moduly[xModul][xOtocenie][x1][y1]
             x1 += 1
         x1 = 0
         y1 += 1
 
 
-def vymaz_modul(x, y, xModul, xOtocenie, plocha):
+def vymaz_modul(x, y, xModul, xOtocenie, p):
     x1 = 0
     y1 = 0
     for xtmp in range(x, x + 5):
         for ytmp in range(y, y + 5):
-            plocha[xtmp][ytmp] -= Moduly[xModul][xOtocenie][x1][y1]
+            p[xtmp][ytmp] -= moduly.Moduly[xModul][xOtocenie][x1][y1]
             x1 += 1
         x1 = 0
         y1 += 1
 
 
-def finalenergy(plocha):
+def finalenergy(p):
     hodnota = 0
     for x in range(4, 9):
         for y in range(4, 16):
-            hodnota += math.fabs(plocha[x][y])
+            hodnota += math.fabs(p[x][y])
     return hodnota
 
 
-def energy(plocha):
+def energy(p):
     hodnota = 0
     for x in range(4, 9):
         for y in range(4, 16):
-            if plocha[x][y] < 0:
-                hodnota += math.fabs(plocha[x][y]) * 2
+            if p[x][y] < 0:
+                hodnota += math.fabs(p[x][y]) * 2
     return hodnota
 
 
@@ -489,14 +123,10 @@ def rec(new_plocha, x, y):
     return hodnota
 
 
-def energy2(plocha):
+def energy2(p):
     velkost = 0
     pocet_ostrovov = 0
-    new_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-    for x in range(4, 9):
-        for y in range(4, 16):
-            new_plocha[x][y] = plocha[x][y]
-
+    new_plocha = plocha(p)
     for x in range(4, 9):
         for y in range(4, 16):
             if new_plocha[x][y] == -1:
@@ -511,177 +141,94 @@ def energy2(plocha):
     return float(velkost / pocet_ostrovov)
 
 
-def prob(e1, e2, temp):
-    delta_e = e2 - e1
-    if delta_e < 0:
-        return 1.1
-    if round(temp, 3) <= 0:
-        return 0.1
-    return min(math.exp(-1 * (delta_e / temp)), 1)
-
-
-def generuj(rozlozenie, plocha):
-    xModul = random.randrange(0, 12)
-    x = random.randrange(4, 9)
-    y = random.randrange(4, 16)
-    pocet_otoceni = len(Moduly[xModul])
-    xOtocenie = random.randrange(0, pocet_otoceni)
-    vymaz_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], plocha)
-    rozlozenie[xModul][0] = x
-    rozlozenie[xModul][1] = y
-    rozlozenie[xModul][2] = xOtocenie
-    zapis_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], plocha)
-
-
-def test(eval):
+def setanneal(eval):
     #1. stanovenie optimalnej teploty a poklesu
     temp = 500
     pokles = 0.05
     delta_temp = 0
     for i in range(0, 5):
-        Hracia_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-
-        rozlozenie_cur = [[0 for x in range(0, 3)] for y in range(0, 12)]
-
-        rozlozenie_best = [[0 for x in range(0, 3)] for y in range(0, 12)]
-        for xModul in range(0, len(Moduly)):
-            #generuj poziciu
-            x = random.randrange(4, 10)
-            y = random.randrange(4, 17)
-            #generuj otocenie
-            pocet_otoceni = len(Moduly[xModul])
-            xOtocenie = random.randrange(0, pocet_otoceni)
-            zapis_modul(x, y, xModul, xOtocenie, Hracia_plocha)
-            rozlozenie_cur[xModul][0] = x
-            rozlozenie_cur[xModul][1] = y
-            rozlozenie_cur[xModul][2] = xOtocenie
-            rozlozenie_best[xModul][0] = x
-            rozlozenie_best[xModul][1] = y
-            rozlozenie_best[xModul][2] = xOtocenie
-        cur = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-        for x in range(4, 9):
-            for y in range(4, 16):
-                cur[x][y] = Hracia_plocha[x][y]
+        hracia_plocha = plocha()
+        rozlozenie_cur = rozlozenie()
+        inicializuj(hracia_plocha, rozlozenie_cur)
+        cur = plocha(hracia_plocha)
         ecur = eval(cur)
         delta_e = 0
         while temp > 0:
             temp -= pokles
-            new_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-            for x in range(4, 9):
-                for y in range(4, 16):
-                    new_plocha[x][y] = cur[x][y]
-            rozlozenie_new = [[0 for x in range(0, 3)] for y in range(0, 12)]
-            for x in range(0, 12):
-                for y in range(0, 3):
-                    rozlozenie_new[x][y] = rozlozenie_cur[x][y]
+            new_plocha = plocha(cur)
+            rozlozenie_new = rozlozenie(rozlozenie_cur)
             generuj(rozlozenie_new, new_plocha)
             enew = eval(new_plocha)
             delta_e += math.fabs(enew - ecur)
             probability = prob(ecur, enew, temp)
-            randomnumber = float(random.randrange(0, 10000000000)) / 10000000000
+            randomnumber = random.random()
             if probability > randomnumber:
-                for x in range(4, 9):
-                    for y in range(4, 16):
-                        cur[x][y] = new_plocha[x][y]
-                for x in range(0, 12):
-                    for y in range(0, 3):
-                        rozlozenie_cur[x][y] = rozlozenie_new[x][y]
+                cur = plocha(new_plocha)
+                rozlozenie_cur = rozlozenie(rozlozenie_new)
                 ecur = eval(cur)
-        temp = delta_e / 10000
-        pokles = temp / 10000
+        temp = delta_e / 1000
+        pokles = temp / 1000
         delta_temp += temp
-    delta_temp /= 10
+    delta_temp /= 5
     temp = delta_temp
     pokles = temp / 10000
     print ("%f10" % delta_temp)
-    #######################################################################################################
-    #2 zbehnutie zihania + navrat priemernych hodnot
-    priemerny_vysledok = 0
-    for iterator in range(0, 1000):
-        Hracia_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-        rozlozenie_cur = [[0 for x in range(0, 3)] for y in range(0, 12)]
-
-        rozlozenie_best = [[0 for x in range(0, 3)] for y in range(0, 12)]
-        for xModul in range(0, len(Moduly)):
-            #generuj poziciu
-            y = random.randrange(4, 17)
-            #generuj otocenie
-            pocet_otoceni = len(Moduly[xModul])
-            xOtocenie = random.randrange(0, pocet_otoceni)
-            zapis_modul(x, y, xModul, xOtocenie, Hracia_plocha)
-            rozlozenie_cur[xModul][0] = x
-            rozlozenie_cur[xModul][1] = y
-            rozlozenie_cur[xModul][2] = xOtocenie
-            rozlozenie_best[xModul][0] = x
-            rozlozenie_best[xModul][1] = y
-            rozlozenie_best[xModul][2] = xOtocenie
-        cur = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-        for x in range(4, 9):
-            for y in range(4, 16):
-                cur[x][y] = Hracia_plocha[x][y]
-                #    vypis_plochu(cur)
-        best = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-        for x in range(4, 9):
-            for y in range(4, 16):
-                best[x][y] = Hracia_plocha[x][y]
-            #ebest = energy(best)
-        ebest = energy2(best)
-        #ecur = energy(cur)
-        ecur = energy2(cur)
-        emin = 0
-        temp = delta_temp
-        halp = 0
-        #    new_plocha = Hracia_plocha
-        while temp > pokles:
-            temp -= pokles
-            new_plocha = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-            for x in range(4, 9):
-                for y in range(4, 16):
-                    new_plocha[x][y] = cur[x][y]
-            rozlozenie_new = [[0 for x in range(0, 3)] for y in range(0, 12)]
-            for x in range(0, 12):
-                for y in range(0, 3):
-                    rozlozenie_new[x][y] = rozlozenie_cur[x][y]
-            generuj(rozlozenie_new, new_plocha)
-            enew = eval(new_plocha)
-            probability = prob(ecur, enew, temp)
-            randomnumber = float(random.randrange(0, 10000000000)) / 10000000000
-            if probability > randomnumber:
-                for x in range(4, 9):
-                    for y in range(4, 16):
-                        cur[x][y] = new_plocha[x][y]
-                for x in range(0, 12):
-                    for y in range(0, 3):
-                        rozlozenie_cur[x][y] = rozlozenie_new[x][y]
-                ecur = eval(cur)
-                if ecur < ebest:
-                    for x in range(4, 9):
-                        for y in range(4, 16):
-                            best[x][y] = cur[x][y]
-                    for x in range(0, 12):
-                        for y in range(0, 3):
-                            rozlozenie_best[x][y] = rozlozenie_cur[x][y]
-                    ebest = eval(best)
-
-        ebest = finalenergy(best)
-        priemerny_vysledok += ebest
-        print ("ebest: %d" % ebest)
-    print("%f10" % float(priemerny_vysledok / 1000))
+    return delta_temp
 
 
-test(finalenergy)
+def anneal(eval, delta_temp, pokles):
+    hracia_plocha = plocha()
+    rozlozenie_cur = rozlozenie()
+    inicializuj(hracia_plocha, rozlozenie_cur)
+    cur = plocha(hracia_plocha)
+    best = plocha(hracia_plocha)
+    ebest = eval(best)
+    ecur = eval(cur)
+    temp = delta_temp
+    delta_e = 0
+    while temp > pokles:
+        temp -= pokles
+        new_plocha = plocha(cur)
+        rozlozenie_new = rozlozenie(rozlozenie_cur)
+        generuj(rozlozenie_new, new_plocha)
+        enew = eval(new_plocha)
+        delta_e += math.fabs(enew - ecur)
+        probability = prob(ecur, enew, temp)
+        randomnumber = random.random()
+        if probability > randomnumber:
+            print(ecur, enew, ecur - enew)
+            cur = plocha(new_plocha)
+            rozlozenie_cur = rozlozenie(rozlozenie_new)
+            ecur = eval(cur)
+            if ecur < ebest:
+                best = plocha(cur)
+                ebest = eval(best)
+
+    ebest = finalenergy(best)
+    result = eval(best)
+    vypis_plochu(best)
+    print ("ebest: %d" % ebest)
+    return result
+
+
+delta_temp = setanneal(energy2)
+
+priemerny_vysledok = 0
+for iterator in range(0, 1000):
+    priemerny_vysledok += anneal(energy2, delta_temp, delta_temp/1000)
+print(priemerny_vysledok/1000)
 
 
 class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
-        self.hracia_plocha1 = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-        self.hracia_plocha2 = [[-1 for x in range(0, 22)] for y in range(0, 15)]
+        self.hracia_plocha1 = plocha()
+        self.hracia_plocha2 = plocha()
         self.hracia_plocha2[4][8] = 0
         self.hracia_plocha2[5][8] = 0
         self.hracia_plocha2[6][8] = 0
         self.hracia_plocha2[7][8] = 0
         self.hracia_plocha2[8][8] = 0
-        self.hracia_plocha3 = [[-1 for x in range(0, 22)] for y in range(0, 15)]
+        self.hracia_plocha3 = plocha()
         self.hracia_plocha3[4][8] = 0
         self.hracia_plocha3[5][8] = 0
         self.hracia_plocha3[6][8] = 0
@@ -691,7 +238,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha3[6][5] = 0
         self.hracia_plocha3[6][6] = 0
         self.hracia_plocha3[6][7] = 0
-        self.hracia_plocha4 = [[-1 for x in range(0, 22)] for y in range(0, 15)]
+        self.hracia_plocha4 = plocha()
         self.hracia_plocha4[4][8] = 0
         self.hracia_plocha4[5][8] = 0
         self.hracia_plocha4[6][8] = 0
@@ -708,7 +255,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha4[6][13] = 0
         self.hracia_plocha4[6][14] = 0
         self.hracia_plocha4[6][15] = 0
-        self.hracia_plocha5 = [[-1 for x in range(0, 22)] for y in range(0, 15)]
+        self.hracia_plocha5 = plocha()
         self.hracia_plocha5[4][8] = 1
         self.hracia_plocha5[5][8] = 1
         self.hracia_plocha5[6][8] = 2
@@ -760,7 +307,7 @@ class TestSequenceFunctions(unittest.TestCase):
             xModul = random.randrange(0, 12)
             x = random.randrange(4, 9)
             y = random.randrange(4, 16)
-            pocet_otoceni = len(Moduly[xModul])
+            pocet_otoceni = len(moduly.Moduly[xModul])
             xOtocenie = random.randrange(0, pocet_otoceni)
             vyber = (xModul, xOtocenie, x, y)
             if vyber not in boli:
@@ -768,7 +315,7 @@ class TestSequenceFunctions(unittest.TestCase):
         print (len(boli))
         self.assertEqual(len(boli), 3780)
         for x in range(0, 12):
-            for y in range(0, len(Moduly[x])):
+            for y in range(0, len(moduly.Moduly[x])):
                 for z in range (4, 9):
                     for w in range (4, 16):
                         vyber = (x, y, z, w)
