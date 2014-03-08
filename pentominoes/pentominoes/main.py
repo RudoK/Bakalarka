@@ -2,94 +2,8 @@ import math
 import random
 import unittest
 import moduly
+import funkcie
 __author__ = 'MeriMood'
-
-
-def prob(e1, e2, temp):
-    delta_e = e2 - e1
-    if delta_e < 0:
-        return 1.1
-    if round(temp, 3) <= 0:
-        return 0.1
-    return min(math.exp(-1 * (delta_e / temp)), 1)
-
-
-def generuj(rozlozenie, p):
-    xModul = random.randrange(0, 12)
-    x = random.randrange(4, 9)
-    y = random.randrange(4, 16)
-    pocet_otoceni = len(moduly.Moduly[xModul])
-    xOtocenie = random.randrange(0, pocet_otoceni)
-    vymaz_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], p)
-    rozlozenie[xModul][0] = x
-    rozlozenie[xModul][1] = y
-    rozlozenie[xModul][2] = xOtocenie
-    zapis_modul(rozlozenie[xModul][0], rozlozenie[xModul][1], xModul, rozlozenie[xModul][2], p)
-
-
-def plocha(p=[[-1 for x in range(0, 22)] for y in range(0, 15)]):
-    result = [[-1 for x in range(0, 22)] for y in range(0, 15)]
-    for x in range(0, 15):
-        for y in range(0, 22):
-            result[x][y] = p[x][y]
-    return result
-
-
-def rozlozenie(r=[[0 for x in range(0, 3)] for y in range(0, 12)]):
-    result = [[0 for x in range(0, 3)] for y in range(0, 12)]
-    for x in range(0, 12):
-        for y in range(0, 3):
-            result[x][y] = r[x][y]
-    return result
-
-
-def inicializuj(hracia_plocha, rozlozenie_cur):
-    for xModul in range(0, len(moduly.Moduly)):
-        #generuj poziciu
-        x = random.randrange(4, 10)
-        y = random.randrange(4, 17)
-        #generuj otocenie
-        pocet_otoceni = len(moduly.Moduly[xModul])
-        xOtocenie = random.randrange(0, pocet_otoceni)
-        zapis_modul(x, y, xModul, xOtocenie, hracia_plocha)
-        rozlozenie_cur[xModul][0] = x
-        rozlozenie_cur[xModul][1] = y
-        rozlozenie_cur[xModul][2] = xOtocenie
-
-
-def vypis_plochu(p):
-    var = ""
-    for x in range(4, 9):
-        for y in range(4, 16):
-            if p[x][y] > -1:
-                var += " "
-            var += " "
-            var += str(p[x][y])
-        print (var)
-        var = ""
-    print ("")
-
-
-def zapis_modul(x, y, xModul, xOtocenie, p):
-    x1 = 0
-    y1 = 0
-    for xtmp in range(x, x + 5):
-        for ytmp in range(y, y + 5):
-            p[xtmp][ytmp] += moduly.Moduly[xModul][xOtocenie][x1][y1]
-            x1 += 1
-        x1 = 0
-        y1 += 1
-
-
-def vymaz_modul(x, y, xModul, xOtocenie, p):
-    x1 = 0
-    y1 = 0
-    for xtmp in range(x, x + 5):
-        for ytmp in range(y, y + 5):
-            p[xtmp][ytmp] -= moduly.Moduly[xModul][xOtocenie][x1][y1]
-            x1 += 1
-        x1 = 0
-        y1 += 1
 
 
 def finalenergy(p):
@@ -126,7 +40,7 @@ def rec(new_plocha, x, y):
 def energy2(p):
     velkost = 0
     pocet_ostrovov = 0
-    new_plocha = plocha(p)
+    new_plocha = funkcie.plocha(p)
     for x in range(4, 9):
         for y in range(4, 16):
             if new_plocha[x][y] == -1:
@@ -147,24 +61,24 @@ def setanneal(eval):
     pokles = 0.05
     delta_temp = 0
     for i in range(0, 5):
-        hracia_plocha = plocha()
-        rozlozenie_cur = rozlozenie()
-        inicializuj(hracia_plocha, rozlozenie_cur)
-        cur = plocha(hracia_plocha)
+        hracia_plocha = funkcie.plocha()
+        rozlozenie_cur = funkcie.rozlozenie()
+        funkcie.inicializuj(hracia_plocha, rozlozenie_cur)
+        cur = funkcie.plocha(hracia_plocha)
         ecur = eval(cur)
         delta_e = 0
         while temp > 0:
             temp -= pokles
-            new_plocha = plocha(cur)
-            rozlozenie_new = rozlozenie(rozlozenie_cur)
-            generuj(rozlozenie_new, new_plocha)
+            new_plocha = funkcie.plocha(cur)
+            rozlozenie_new = funkcie.rozlozenie(rozlozenie_cur)
+            funkcie.generuj(rozlozenie_new, new_plocha)
             enew = eval(new_plocha)
             delta_e += math.fabs(enew - ecur)
-            probability = prob(ecur, enew, temp)
+            probability = funkcie.prob(ecur, enew, temp)
             randomnumber = random.random()
             if probability > randomnumber:
-                cur = plocha(new_plocha)
-                rozlozenie_cur = rozlozenie(rozlozenie_new)
+                cur = funkcie.plocha(new_plocha)
+                rozlozenie_cur = funkcie.rozlozenie(rozlozenie_new)
                 ecur = eval(cur)
         temp = delta_e / 1000
         pokles = temp / 1000
@@ -177,36 +91,36 @@ def setanneal(eval):
 
 
 def anneal(eval, delta_temp, pokles):
-    hracia_plocha = plocha()
-    rozlozenie_cur = rozlozenie()
-    inicializuj(hracia_plocha, rozlozenie_cur)
-    cur = plocha(hracia_plocha)
-    best = plocha(hracia_plocha)
+    hracia_plocha = funkcie.plocha()
+    rozlozenie_cur = funkcie.rozlozenie()
+    funkcie.inicializuj(hracia_plocha, rozlozenie_cur)
+    cur = funkcie.plocha(hracia_plocha)
+    best = funkcie.plocha(hracia_plocha)
     ebest = eval(best)
     ecur = eval(cur)
     temp = delta_temp
     delta_e = 0
     while temp > pokles:
         temp -= pokles
-        new_plocha = plocha(cur)
-        rozlozenie_new = rozlozenie(rozlozenie_cur)
-        generuj(rozlozenie_new, new_plocha)
+        new_plocha = funkcie.plocha(cur)
+        rozlozenie_new = funkcie.rozlozenie(rozlozenie_cur)
+        funkcie.generuj(rozlozenie_new, new_plocha)
         enew = eval(new_plocha)
         delta_e += math.fabs(enew - ecur)
-        probability = prob(ecur, enew, temp)
+        probability = funkcie.prob(ecur, enew, temp)
         randomnumber = random.random()
         if probability > randomnumber:
             print(ecur - enew, temp)
-            cur = plocha(new_plocha)
-            rozlozenie_cur = rozlozenie(rozlozenie_new)
+            cur = funkcie.plocha(new_plocha)
+            rozlozenie_cur = funkcie.rozlozenie(rozlozenie_new)
             ecur = eval(cur)
             if ecur < ebest:
-                best = plocha(cur)
+                best = funkcie.plocha(cur)
                 ebest = eval(best)
 
     ebest = finalenergy(best)
     result = eval(best)
-    vypis_plochu(best)
+    funkcie.vypis_plochu(best)
     print ("ebest: %d" % ebest)
     return result
 
@@ -221,14 +135,14 @@ print(priemerny_vysledok/1000)
 
 class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
-        self.hracia_plocha1 = plocha()
-        self.hracia_plocha2 = plocha()
+        self.hracia_plocha1 = funkcie.plocha()
+        self.hracia_plocha2 = funkcie.plocha()
         self.hracia_plocha2[4][8] = 0
         self.hracia_plocha2[5][8] = 0
         self.hracia_plocha2[6][8] = 0
         self.hracia_plocha2[7][8] = 0
         self.hracia_plocha2[8][8] = 0
-        self.hracia_plocha3 = plocha()
+        self.hracia_plocha3 = funkcie.plocha()
         self.hracia_plocha3[4][8] = 0
         self.hracia_plocha3[5][8] = 0
         self.hracia_plocha3[6][8] = 0
@@ -238,7 +152,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha3[6][5] = 0
         self.hracia_plocha3[6][6] = 0
         self.hracia_plocha3[6][7] = 0
-        self.hracia_plocha4 = plocha()
+        self.hracia_plocha4 = funkcie.plocha()
         self.hracia_plocha4[4][8] = 0
         self.hracia_plocha4[5][8] = 0
         self.hracia_plocha4[6][8] = 0
@@ -255,7 +169,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.hracia_plocha4[6][13] = 0
         self.hracia_plocha4[6][14] = 0
         self.hracia_plocha4[6][15] = 0
-        self.hracia_plocha5 = plocha()
+        self.hracia_plocha5 = funkcie.plocha()
         self.hracia_plocha5[4][8] = 1
         self.hracia_plocha5[5][8] = 1
         self.hracia_plocha5[6][8] = 2
