@@ -6,57 +6,22 @@ import funkcie
 __author__ = 'MeriMood'
 
 
-def setanneal(eval):
-    #1. stanovenie optimalnej teploty a poklesu
-    temp = 500
-    pokles = 0.05
-    delta_temp = 0
-    for i in range(0, 5):
-        hracia_plocha = funkcie.plocha()
-        rozlozenie_cur = funkcie.rozlozenie()
-        funkcie.inicializuj(hracia_plocha, rozlozenie_cur)
-        cur = funkcie.plocha(hracia_plocha)
-        ecur = eval(cur)
-        delta_e = 0
-        while temp > 0:
-            temp -= pokles
-            new_plocha = funkcie.plocha(cur)
-            rozlozenie_new = funkcie.rozlozenie(rozlozenie_cur)
-            funkcie.generuj(rozlozenie_new, new_plocha)
-            enew = eval(new_plocha)
-            delta_e += math.fabs(enew - ecur)
-            probability = funkcie.prob(ecur, enew, temp)
-            randomnumber = random.random()
-            if probability > randomnumber:
-                cur = funkcie.plocha(new_plocha)
-                rozlozenie_cur = funkcie.rozlozenie(rozlozenie_new)
-                ecur = eval(cur)
-        temp = delta_e / 1000
-        pokles = temp / 1000
-        delta_temp += temp
-    delta_temp /= 5
-    temp = delta_temp
-    pokles = temp / 10000
-    print ("%f10" % delta_temp)
-    return delta_temp
-
-
-def anneal(eval, delta_temp, pokles):
+def anneal(fun, init_temp, ticks, opt = 1):
     hracia_plocha = funkcie.plocha()
     rozlozenie_cur = funkcie.rozlozenie()
     funkcie.inicializuj(hracia_plocha, rozlozenie_cur)
     cur = funkcie.plocha(hracia_plocha)
     best = funkcie.plocha(hracia_plocha)
-    ebest = eval(best)
-    ecur = eval(cur)
-    temp = delta_temp
+    ebest = fun(best, opt)
+    ecur = fun(cur, opt)
+    temp = init_temp
     delta_e = 0
-    while temp > pokles:
-        temp -= pokles
+    while temp > init_temp/ticks:
+        temp -= init_temp/ticks
         new_plocha = funkcie.plocha(cur)
         rozlozenie_new = funkcie.rozlozenie(rozlozenie_cur)
         funkcie.generuj(rozlozenie_new, new_plocha)
-        enew = eval(new_plocha)
+        enew = fun(new_plocha, opt)
         delta_e += math.fabs(enew - ecur)
         probability = funkcie.prob(ecur, enew, temp)
         randomnumber = random.random()
@@ -64,24 +29,28 @@ def anneal(eval, delta_temp, pokles):
 #            print(ecur - enew, temp)
             cur = funkcie.plocha(new_plocha)
             rozlozenie_cur = funkcie.rozlozenie(rozlozenie_new)
-            ecur = eval(cur)
+            ecur = fun(cur, opt)
             if ecur < ebest:
                 best = funkcie.plocha(cur)
-                ebest = eval(best)
+                ebest = fun(best, opt)
 
     ebest = funkcie.finalenergy(best)
-    result = eval(best)
-#    funkcie.vypis_plochu(best)
+    funkcie.vypis_plochu(best)
     print ("ebest: %d" % ebest)
-    return result
+    return ebest, delta_e
 
 
-delta_temp = setanneal(funkcie.energy)
+_temp = 500
+delta_temp = 0
+for iterator in range(0, 5):
+    _temp = anneal(funkcie.energy2, _temp, 10000, opt=0.6)[1]/1000
+    delta_temp += _temp
+delta_temp /= 5
+print(delta_temp)
 priemerny_vysledok = 0
-for iterator in range(0, 1000):
-    priemerny_vysledok += anneal(funkcie.energy, delta_temp, delta_temp/10000)
-print(priemerny_vysledok/1000)
-
+for iterator in range(0, 100):
+    priemerny_vysledok += anneal(funkcie.energy2, delta_temp, 10000, opt=0.6)[0]
+print(priemerny_vysledok/100)
 
 class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
@@ -158,12 +127,12 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(funkcie.finalenergy(self.hracia_plocha5), 61)
 
     def test3(self):
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 4, 4), 4)
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 5, 7), 1)
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 5, 4), 0)
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 7, 4), 4)
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 4, 9), 14)
-        self.assertEqual(funkcie.rec(self.hracia_plocha5, 7, 9), 14)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 4, 4), 4)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 5, 7), 1)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 5, 4), 0)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 7, 4), 4)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 4, 9), 14)
+        self.assertEqual(funkcie.energy2rekurzia(self.hracia_plocha5, 7, 9), 14)
 
     def test4(self):
         boli = set()
@@ -189,5 +158,5 @@ class TestSequenceFunctions(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main()
+#if __name__ == '__main__':
+#   unittest.main()
