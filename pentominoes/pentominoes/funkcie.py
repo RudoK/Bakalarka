@@ -1,3 +1,4 @@
+from __future__ import division
 import math
 import random
 import moduly
@@ -186,3 +187,46 @@ def energy3(p, opt = 1):
         pocet_ostrovov = 1
 #    print(velkost / pocet_ostrovov)
     return float(velkost / pocet_ostrovov)
+
+def najdiOstrovy(new_plocha, x, y, N):
+    new_plocha[x][y] = N
+    if (new_plocha[x + 1][y] == -1) & (x < 8):
+       najdiOstrovy(new_plocha, x + 1, y, N)
+    if (new_plocha[x - 1][y] == -1) & (x > 4):
+        najdiOstrovy(new_plocha, x - 1, y, N)
+    if (new_plocha[x][y + 1] == -1) & (y < 15):
+        najdiOstrovy(new_plocha, x, y + 1, N)
+    if (new_plocha[x][y - 1] == -1) & (y > 4):
+        najdiOstrovy(new_plocha, x, y - 1, N)
+    return new_plocha
+
+def energyObvod(p, opt = 1):
+    N = -2
+    tmp = plocha(p)
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if tmp[x][y] == -1:
+                tmp = najdiOstrovy(tmp, x, y, N)
+                N -= 1
+    coasts = []
+    coast = 0
+    for i in range(N, 0):
+        coasts.append(coast)
+
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if tmp[x][y] < 0:
+                if (tmp[x - 1][y] >= 0) | (x == 4):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x + 1][y] >= 0) | (x == 8):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x][y - 1] >= 0) | (y == 4):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x][y + 1] >= 0) | (y == 15):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+    return coast
+

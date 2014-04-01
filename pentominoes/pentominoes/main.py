@@ -1,10 +1,10 @@
+from __future__ import division
 import math
 import random
 import unittest
 import moduly
 import funkcie
 __author__ = 'MeriMood'
-
 
 def anneal(fun, init_temp, ticks, opt = 1):
     hracia_plocha = funkcie.plocha()
@@ -39,18 +39,18 @@ def anneal(fun, init_temp, ticks, opt = 1):
     print ("ebest: %d" % ebest)
     return ebest, delta_e
 
-
+ticks = 100000
 _temp = 500
 delta_temp = 0
 for iterator in range(0, 5):
-    _temp = anneal(funkcie.energy2, _temp, 10000, opt=0.6)[1]/1000
+    _temp = anneal(funkcie.energyObvod, _temp, ticks)[1]/ticks
     delta_temp += _temp
 delta_temp /= 5
 print(delta_temp)
 priemerny_vysledok = 0
-for iterator in range(0, 100):
-    priemerny_vysledok += anneal(funkcie.energy2, delta_temp, 10000, opt=0.6)[0]
-print(priemerny_vysledok/100)
+for iterator in range(0, 10):
+    priemerny_vysledok += anneal(funkcie.energyObvod, delta_temp, ticks)[0]
+print(priemerny_vysledok/10)
 
 class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
@@ -155,7 +155,6 @@ class TestSequenceFunctions(unittest.TestCase):
                         if vyber not in boli:
                             print(vyber)
         print ("done")
-
 
 
 #if __name__ == '__main__':
