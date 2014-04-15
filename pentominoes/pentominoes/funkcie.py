@@ -71,6 +71,14 @@ def plocha(p=[[-1 for x in range(0, 22)] for y in range(0, 15)]):
     return result
 
 
+def nulaplocha(p=[[0 for x in range(0, 22)] for y in range(0, 15)]):
+    result = [[0 for x in range(0, 22)] for y in range(0, 15)]
+    for x in range(0, 15):
+        for y in range(0, 22):
+            result[x][y] = p[x][y]
+    return result
+
+
 def rozlozenie(r=[[0 for x in range(0, 3)] for y in range(0, 12)]):
     result = [[0 for x in range(0, 3)] for y in range(0, 12)]
     for x in range(0, 12):
@@ -103,7 +111,7 @@ def energy(p, opt = 1):
 
 
 #ohodnocovacia funkcia, ktora berie do uvahy velkosti a pocet ostrovov, vyuziva pomocnu funkciu
-def energy2(p, opt = 1):
+def energy2(p, opt = 0.5):
     velkost = 0
     pocet_ostrovov = 0
     vaha_pocet_ostrovov = 1-opt
@@ -188,19 +196,54 @@ def energy3(p, opt = 1):
 #    print(velkost / pocet_ostrovov)
     return float(velkost / pocet_ostrovov)
 
-def najdiOstrovy(new_plocha, x, y, N):
+
+def najdiKladneOstrovy(new_plocha, x, y, N):
     new_plocha[x][y] = N
-    if (new_plocha[x + 1][y] == -1) & (x < 8):
-       najdiOstrovy(new_plocha, x + 1, y, N)
-    if (new_plocha[x - 1][y] == -1) & (x > 4):
-        najdiOstrovy(new_plocha, x - 1, y, N)
-    if (new_plocha[x][y + 1] == -1) & (y < 15):
-        najdiOstrovy(new_plocha, x, y + 1, N)
-    if (new_plocha[x][y - 1] == -1) & (y > 4):
-        najdiOstrovy(new_plocha, x, y - 1, N)
+    if (new_plocha[x + 1][y] > 0) & (x < 8):
+        najdiKladneOstrovy(new_plocha, x + 1, y, N)
+    if (new_plocha[x - 1][y] > 0) & (x > 4):
+        najdiKladneOstrovy(new_plocha, x - 1, y, N)
+    if (new_plocha[x][y + 1] > 0) & (y < 15):
+        najdiKladneOstrovy(new_plocha, x, y + 1, N)
+    if (new_plocha[x][y - 1] > 0) & (y > 4):
+        najdiKladneOstrovy(new_plocha, x, y - 1, N)
     return new_plocha
 
-def energyObvod(p, opt = 1):
+
+def kladneObvody(p):
+    N = -2
+    tmp = plocha(p)
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if tmp[x][y] == -1:
+                tmp[x][y] = 0
+            if tmp[x][y] > 0:
+                tmp = najdiKladneOstrovy(tmp, x, y, N)
+                N -= 1
+    coasts = []
+    coast = 0
+    for i in range(N, 0):
+        coasts.append(coast)
+
+    for x in range(4, 9):
+        for y in range(4, 16):
+            if tmp[x][y] < 0:
+                if (tmp[x - 1][y] >= 0) | (x == 4):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x + 1][y] >= 0) | (x == 8):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x][y - 1] >= 0) | (y == 4):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+                if (tmp[x][y + 1] >= 0) | (y == 15):
+                    coast += 1
+                    coasts[int(math.fabs(tmp[x][y]))] += 1
+    return coasts
+
+
+def Obvody(p):
     N = -2
     tmp = plocha(p)
     for x in range(4, 9):
@@ -228,5 +271,78 @@ def energyObvod(p, opt = 1):
                 if (tmp[x][y + 1] >= 0) | (y == 15):
                     coast += 1
                     coasts[int(math.fabs(tmp[x][y]))] += 1
-    return coast
+    return coasts
 
+
+def energyKladnyObvod(p, opt = 0.5):
+    vaha_zvysok = 1-opt
+    vaha_obvod = 1-vaha_zvysok
+    new_plocha = plocha(p)
+    obvody = []
+    obvody = kladneObvody(new_plocha)
+    celkovy_obvod = 0
+    for i in range(0, len(obvody)):
+        celkovy_obvod += obvody[i]
+    celkova_velkost = energy(p)
+
+    return celkovy_obvod*vaha_obvod + celkova_velkost*vaha_zvysok
+
+
+def najdiOstrovy(new_plocha, x, y, N):
+    new_plocha[x][y] = N
+    if (new_plocha[x + 1][y] == -1) & (x < 8):
+        najdiOstrovy(new_plocha, x + 1, y, N)
+    if (new_plocha[x - 1][y] == -1) & (x > 4):
+        najdiOstrovy(new_plocha, x - 1, y, N)
+    if (new_plocha[x][y + 1] == -1) & (y < 15):
+        najdiOstrovy(new_plocha, x, y + 1, N)
+    if (new_plocha[x][y - 1] == -1) & (y > 4):
+        najdiOstrovy(new_plocha, x, y - 1, N)
+    return new_plocha
+
+
+def energyObvod(p, opt = 0.5):
+    vaha_zvysok = 1-opt
+    vaha_obvod = 1-vaha_zvysok
+    new_plocha = plocha(p)
+    obvody = []
+    obvody = Obvody(new_plocha)
+    celkovy_obvod = 0
+    for i in range(0, len(obvody)):
+        celkovy_obvod += obvody[i]
+    celkova_velkost = energy(p)
+
+    return celkovy_obvod*vaha_obvod + celkova_velkost*vaha_zvysok
+
+
+def energyCelyObvod(p, opt = 0.5):
+    vaha_zvysok = 1-opt
+    vaha_obvod = 1-vaha_zvysok
+    new_plocha = plocha(p)
+    zaporne_obvody = []
+    zaporne_obvody = Obvody(new_plocha)
+    kladne_obvody = []
+    kladne_obvody = kladneObvody(new_plocha)
+    celkovy_obvod = 0
+    for i in range(0, len(zaporne_obvody)):
+        celkovy_obvod += zaporne_obvody[i]
+    for i in range(0, len(kladne_obvody)):
+        celkovy_obvod += kladne_obvody[i]
+    celkova_velkost = energy(p)
+    return celkovy_obvod*vaha_obvod + celkova_velkost*vaha_zvysok
+
+def energy2CelyObvod(p, opt = 0.5):
+    vaha_zvysok = 1-opt
+    vaha_obvod = 1-vaha_zvysok
+    new_plocha = plocha(p)
+    zaporne_obvody = []
+    zaporne_obvody = Obvody(new_plocha)
+    kladne_obvody = []
+    kladne_obvody = kladneObvody(new_plocha)
+    celkovy_obvod = 0
+    for i in range(0, len(zaporne_obvody)):
+        celkovy_obvod += zaporne_obvody[i]
+    for i in range(0, len(kladne_obvody)):
+        celkovy_obvod += kladne_obvody[i]
+    celkova_velkost = energy2(p)
+    return celkovy_obvod*vaha_obvod + celkova_velkost*vaha_zvysok

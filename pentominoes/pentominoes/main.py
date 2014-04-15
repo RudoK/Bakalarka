@@ -39,18 +39,32 @@ def anneal(fun, init_temp, ticks, opt = 1):
     print ("ebest: %d" % ebest)
     return ebest, delta_e
 
-ticks = 100000
-_temp = 500
-delta_temp = 0
-for iterator in range(0, 5):
-    _temp = anneal(funkcie.energyObvod, _temp, ticks)[1]/ticks
-    delta_temp += _temp
-delta_temp /= 5
-print(delta_temp)
-priemerny_vysledok = 0
-for iterator in range(0, 10):
-    priemerny_vysledok += anneal(funkcie.energyObvod, delta_temp, ticks)[0]
-print(priemerny_vysledok/10)
+
+for i in range(1, 2):
+    ticks = 3000000
+    _temp = 10
+    delta_temp = 0
+    for iterator in range(0, 5):
+        _temp = anneal(funkcie.energyCelyObvod, _temp, ticks, opt=9/20)[1]/ticks
+        delta_temp += _temp
+    delta_temp /= 5
+    #print(delta_temp)
+    vysledky = []
+    N = 100
+    for iterator in range(0, N):
+        vysledky.append(anneal(funkcie.energyCelyObvod, delta_temp, ticks, opt=9/20)[0])
+
+    priemer = 0
+    for iterator in range(0, N):
+        priemer += vysledky[iterator]
+    priemer /= N
+    stdev = 0
+    for iterator in range(0, N):
+        stdev += math.pow((vysledky[iterator] - priemer), 2)
+    stdev = math.sqrt(stdev/N)
+    print(i, priemer, stdev)
+
+
 
 class TestSequenceFunctions(unittest.TestCase):
     def setUp(self):
